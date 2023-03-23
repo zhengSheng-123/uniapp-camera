@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "uview-ui": "^2.0.31"
+  },
+  "devDependencies": {
+    "sass": "^1.59.3",
+    "sass-loader": "^10.4.1"
+  }
+}
