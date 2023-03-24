@@ -4,7 +4,7 @@
     <view class="text-area">
       <text class="title">{{title}}</text>
     </view>
-    <u-button style="margin-bottom: 30px" type="primary" text="按钮" @click="create"></u-button>
+    <u-button style="margin-bottom: 30px" type="primary" text="按钮" @click="create()"></u-button>
     <!--       <u-upload
     	:fileList="fileList3"
     	:maxCount="10"
@@ -44,16 +44,14 @@
     methods: {
       async create() {
         let result = await this.getData()
+		console.log("==============",result);
         if(result == 'ok'){
           if(this.fileList3.length > 1){
             this.fileList3.forEach(async(item)=>{
-              console.log("循环上传");
               let uploadResult = await this.uploadFilePromise(item)
-              console.log("上传结果");
             })
           }
         }
-        console.log("**",result);
       },
       getData() {
         let _self = this
@@ -66,13 +64,19 @@
               directoryReader.readEntries(
                 function(entries) {
                   let tmp = cloneDeep(entries)
-                  // console.log("&&",cloneDeep(entries[1]));
-                  // console.log("~~~~~~~",entries === tmp);
                   //entries目录是一个数字遍历就能得到文件了，如下
-                  let count = _self.num + 10
-                  for (let i = _self.num; i < count; i++) {
+				  if(entries.length <= _self.num){
+					  uni.showToast({
+					  	title: '没有更多数据了',
+					  	duration: 2000,
+						icon: "none"
+					  });
+					  return
+				  }
+                  let count = _self.num + 9
+				  let num = _self.num
+                  for (let i = num; i <= count; i++) {
                     let obj = {
-                      // url: tmp[i].fullPath,
                       name:tmp[i].name,
                       fullPath:tmp[i].fullPath,
                       url:tmp[i].toURL()
@@ -80,10 +84,9 @@
                     tmp[i].url = tmp[i].fullPath
                     _self.fileList3.push(obj)
                     _self.fileList1.push(tmp[i])
-                    _self.num = i
-                    console.log("1111111111", _self.fileList1);
-                    console.log("文件信息：", _self.fileList3);
+                    _self.num = i + 1
                   }
+				  console.log("@@@@@@@@@",_self);
                   resolve('ok')
                 },
                 function(err) {
@@ -123,18 +126,18 @@
         }
       },
       uploadFilePromise({url}) {
-        console.log("接收到url",url);
+        // console.log("接收到url",url);
         return new Promise((resolve, reject) => {              
           let a = uni.uploadFile({
 			url: 'http://www.mjorkj.top:8088/user/updateImages', // 仅为示例，非真实的接口地址
             // url: 'http://192.168.2.21:7001/upload', // 仅为示例，非真实的接口地址
             filePath: url,
-            // name: 'file',
 			name: 'filedata',
             // formData: {
             //   user: 'test'
             // },
             success: (res) => {
+				console.log("上传成功");
               resolve(res.data.data)
             },
             fail(err) {

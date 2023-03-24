@@ -55,7 +55,7 @@
 			uploadFilePromise(url) {
 				return new Promise((resolve, reject) => {
 					let a = uni.uploadFile({
-						url: 'http://192.168.0.104:63010/media/upload/coursefile', // 仅为示例，非真实的接口地址
+						url: 'http://www.mjorkj.top:8088/user/updateImages', // 仅为示例，非真实的接口地址
 						// url: 'http://pro.yanhuiyun.suiyiyun.cn/api/v1/common/Common/normalfileupload?type=imgs', // 仅为示例，非真实的接口地址
 						filePath: url,
 						name: 'filedata',
