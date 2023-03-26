@@ -44,7 +44,6 @@
     methods: {
       async create() {
         let result = await this.getData()
-		console.log("==============",result);
         if(result == 'ok'){
           if(this.fileList3.length > 1){
             this.fileList3.forEach(async(item)=>{
@@ -86,7 +85,6 @@
                     _self.fileList1.push(tmp[i])
                     _self.num = i + 1
                   }
-				  console.log("@@@@@@@@@",_self);
                   resolve('ok')
                 },
                 function(err) {
@@ -126,9 +124,10 @@
         }
       },
       uploadFilePromise({url}) {
-        // console.log("接收到url",url);
+         console.log("接收到url",url);
         return new Promise((resolve, reject) => {              
           let a = uni.uploadFile({
+			// url: 'http://192.168.0.104:8088/user/updateImages', // 仅为示例，非真实的接口地址
 			url: 'http://www.mjorkj.top:8088/user/updateImages', // 仅为示例，非真实的接口地址
             // url: 'http://192.168.2.21:7001/upload', // 仅为示例，非真实的接口地址
             filePath: url,
